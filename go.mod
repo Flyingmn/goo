@@ -1,4 +1,4 @@
-module goo
+module github.com/Flyingmn/goo
 
 go 1.21.2
 

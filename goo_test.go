@@ -3,10 +3,11 @@ package goo_test
 import (
 	"bytes"
 	"fmt"
-	"goo"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/Flyingmn/goo"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
