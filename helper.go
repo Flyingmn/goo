@@ -15,3 +15,34 @@ func Md5(input string) string {
 
 	return MD5String
 }
+
+func ArrayColumn[T []M, M map[K]V, K string, V any](arr T, k K) []V {
+	var result []V
+
+	for _, v := range arr {
+		if v, ok := v[k]; ok {
+			result = append(result, v)
+		}
+	}
+
+	return result
+}
+
+func ArrayChunk[T []V, V any](s T, size int) []T {
+	if len(s) <= size {
+		return []T{s}
+	}
+
+	chunks := int(len(s) / size)
+
+	var result []T
+
+	for i := 0; i < chunks; i++ {
+		start := i * size
+		end := start + size
+
+		result = append(result, s[start:end])
+	}
+
+	return result
+}
