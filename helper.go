@@ -170,3 +170,15 @@ func StructsColumn[T any, V any](structs []T, name string, defValue V) ([]V, err
 
 	return result, nil
 }
+
+func MapMerge[K comparable, V any](maps ...map[K]V) map[K]V {
+	result := make(map[K]V)
+
+	for _, m := range maps {
+		for k, v := range m {
+			result[k] = v
+		}
+	}
+
+	return result
+}
