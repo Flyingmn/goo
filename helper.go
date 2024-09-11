@@ -257,8 +257,7 @@ func AnyConvert2T[T any](v any, t T) T {
 	vVal := reflect.ValueOf(v)
 	tVal := reflect.ValueOf(t)
 
-	//检查zero val
-	if vVal.IsZero() || tVal.IsZero() {
+	if !tVal.IsValid() || !vVal.IsValid() {
 		return t
 	}
 
