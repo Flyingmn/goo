@@ -257,6 +257,11 @@ func AnyConvert2T[T any](v any, t T) T {
 	vVal := reflect.ValueOf(v)
 	tVal := reflect.ValueOf(t)
 
+	//检查zero val
+	if vVal.IsZero() || tVal.IsZero() {
+		return t
+	}
+
 	//如果原类型string, 并且目标类型是int,尝试转换
 	if vVal.Kind() == reflect.String && tVal.Kind() >= reflect.Int && tVal.Kind() <= reflect.Int64 {
 		if num, err := strconv.ParseInt(v.(string), 10, 64); err == nil {
