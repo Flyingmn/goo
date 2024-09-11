@@ -5,5 +5,5 @@
 
 ```bash
 # 使用go modules
-go get -u github.com/Flyingmn/goo
+go get -u github.com/Flyingmn/goo@main
 ```
