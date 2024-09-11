@@ -9,8 +9,6 @@ import (
 	"reflect"
 	"strconv"
 	"time"
-
-	"golang.org/x/exp/constraints"
 )
 
 func Md5(input string) string {
@@ -250,20 +248,6 @@ func GetMapWsDef[C comparable, V any, DV any](m map[C]V, key C, def DV) (DV, boo
 	}
 
 	return AnyConvert2T(v, def), ok
-}
-
-type Number interface {
-	constraints.Integer | constraints.Float
-}
-
-// 安全的除法， 除数为0返回0和错误
-func SafeDivide[T Number](numerator, denominator T) (T, error) {
-	// 检查除数是否为 0
-	if denominator == 0 {
-		return 0, errors.New("division by zero")
-	}
-
-	return numerator / denominator, nil
 }
 
 /*
