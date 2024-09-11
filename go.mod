@@ -1,3 +1,3 @@
-module github.com/Flyingmn/goo/v2
+module github.com/Flyingmn/goo
 
 go 1.21
