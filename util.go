@@ -21,6 +21,27 @@ func Md5(input string) string {
 	return MD5String
 }
 
+func DurationToChinese(d time.Duration) string {
+	days := d / (24 * time.Hour)
+	hours := (d % (24 * time.Hour)) / time.Hour
+	minutes := (d % time.Hour) / time.Minute
+	seconds := (d % time.Minute) / time.Second
+
+	if days == 0 && hours == 0 && minutes == 0 {
+		return fmt.Sprintf("%d秒", seconds)
+	}
+
+	if days == 0 && hours == 0 {
+		return fmt.Sprintf("%d分钟%d秒", minutes, seconds)
+	}
+
+	if days == 0 {
+		return fmt.Sprintf("%d小时%d分钟%d秒", hours, minutes, seconds)
+	}
+
+	return fmt.Sprintf("%d天%d小时%d分钟%d秒", days, hours, minutes, seconds)
+}
+
 // 判断变量是否为0，只有数字类型才可能返回true
 func IsNumZero(v any) bool {
 	switch v := v.(type) {
