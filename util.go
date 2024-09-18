@@ -21,25 +21,72 @@ func Md5(input string) string {
 	return MD5String
 }
 
+/*
+	10秒
+	1分钟
+	1分10秒
+	1小时
+	1小时10分
+	1小时10分10秒
+	1小时零10秒
+	1天
+	1天10小时
+	1天10小时10分
+	1天10小时10分10秒
+	1天零10分
+	1天零10分10秒
+	1天零10秒
+*/
+
+type durChinese struct {
+	D    time.Duration
+	Name []rune
+}
+
 func DurationToChinese(d time.Duration) string {
 	days := d / (24 * time.Hour)
 	hours := (d % (24 * time.Hour)) / time.Hour
 	minutes := (d % time.Hour) / time.Minute
 	seconds := (d % time.Minute) / time.Second
 
-	if days == 0 && hours == 0 && minutes == 0 {
-		return fmt.Sprintf("%d秒", seconds)
+	sl := [4]durChinese{
+		{days, []rune{'天'}},
+		{hours, []rune{'小', '时'}},
+		{minutes, []rune{'分'}},
+		{seconds, []rune{'秒'}},
 	}
 
-	if days == 0 && hours == 0 {
-		return fmt.Sprintf("%d分钟%d秒", minutes, seconds)
+	var result []rune
+
+	for _, v := range sl {
+		if v.D > 0 {
+			result = append(result, []rune(fmt.Sprintf("%d", v.D))...)
+			result = append(result, v.Name...)
+			continue
+		}
+
+		if len(result) > 0 {
+			//如果结尾已经是零,直接跳过
+			if result[len(result)-1] == '零' {
+				continue
+			}
+
+			result = append(result, '零')
+			continue
+		}
 	}
 
-	if days == 0 {
-		return fmt.Sprintf("%d小时%d分钟%d秒", hours, minutes, seconds)
+	// 如果结尾是零,去掉零
+	if len(result) > 0 && result[len(result)-1] == '零' {
+		result = result[:len(result)-1]
 	}
 
-	return fmt.Sprintf("%d天%d小时%d分钟%d秒", days, hours, minutes, seconds)
+	// 如果结果为空，返回 "0秒"
+	if len(result) == 0 {
+		return "0秒"
+	}
+
+	return string(result)
 }
 
 // 判断变量是否为0，只有数字类型才可能返回true
