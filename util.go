@@ -222,6 +222,11 @@ func AnyConvert2T[T any](v any, t T) T {
 		return AnyConvert2T(float64(vint64), t)
 	}
 
+	//如果是[]byte类型, 先转为string,再转换
+	if vVal.Kind() == reflect.Slice && vVal.Type().Elem().Kind() == reflect.Uint8 {
+		return AnyConvert2T(string(v.([]byte)), t)
+	}
+
 	//其他情况
 	if vVal.Type().ConvertibleTo(tVal.Type()) {
 		return vVal.Convert(tVal.Type()).Interface().(T)
