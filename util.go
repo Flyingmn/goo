@@ -215,6 +215,13 @@ func AnyConvert2T[T any](v any, t T) T {
 		}
 	}
 
+	//如果原类型是int, 并且目标类型是float,尝试转换
+	if vVal.Kind() >= reflect.Int && vVal.Kind() <= reflect.Int64 && (tVal.Kind() == reflect.Float32 || tVal.Kind() == reflect.Float64) {
+		vint64 := AnyConvert2T(v, int64(0))
+
+		return AnyConvert2T(float64(vint64), t)
+	}
+
 	//其他情况
 	if vVal.Type().ConvertibleTo(tVal.Type()) {
 		return vVal.Convert(tVal.Type()).Interface().(T)
