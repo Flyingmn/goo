@@ -272,7 +272,7 @@ func TimeString2Unix(t string) int64 {
 	if len(t) <= 10 {
 		t = fmt.Sprintf("%s 00:00:00", t)
 	}
-	timer, _ := time.ParseInLocation(time.DateTime, t, loc)
+	timer, _ := time.ParseInLocation("2006-01-02 15:04:05", t, loc)
 
 	return timer.Unix()
 }
@@ -283,7 +283,7 @@ func TimeString2Time(t string) time.Time {
 	if len(t) <= 10 {
 		t = fmt.Sprintf("%s 00:00:00", t)
 	}
-	timer, _ := time.ParseInLocation(time.DateTime, t, loc)
+	timer, _ := time.ParseInLocation("2006-01-02 15:04:05", t, loc)
 
 	return timer
 }
