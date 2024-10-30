@@ -286,10 +286,20 @@ func Test_TimeString2Unix(t *testing.T) {
 	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00.000000"))
 
 	// RFC3339
-	fmt.Println(goo.TimeString2Unix("2022-01-01T00:00:00Z"))
+	fmt.Println(goo.TimeString2Unix("2022-01-01T12:00:00Z"))
 	// RFC3339Nano
-	fmt.Println(goo.TimeString2Unix("2022-01-01T00:00:00.000000Z"))
+	fmt.Println(goo.TimeString2Unix("2022-01-01T12:00:00.000000Z"))
 
+	//RFC1123
+	fmt.Println(goo.TimeString2Unix("Mon, 01 Jan 2022 12:00:00 MST"))
+	//RFC1123Z
+	fmt.Println(goo.TimeString2Unix("Mon, 01 Jan 2022 12:00:00 -0000"))
+	//RFC822  02 Jan 06 15:04 MST
+	fmt.Println(goo.TimeString2Unix("01 Jan 22 12:00 MST"))
+	//RFC822Z
+	fmt.Println(goo.TimeString2Unix("01 Jan 22 12:00 -0700"))
+	//RFC850 Monday, 02-Jan-06 15:04:05 MST
+	fmt.Println(goo.TimeString2Unix("Monday, 01-Jan-22 12:00:01 MST"))
 }
 
 // func TimeString2Unix(t string) int64
@@ -303,4 +313,14 @@ func Test_TimeString2Time(t *testing.T) {
 	// RFC3339Nano
 	fmt.Println(goo.TimeString2Time("2022-01-01T12:00:00.000000Z").Format("2006-01-02 15:04:05"))
 
+	//RFC1123 Mon, 02 Jan 2006 15:04:05 MST
+	fmt.Println(goo.TimeString2Time("Mon, 01 Jan 2022 12:00:00 MST").Format("2006-01-02 15:04:05"))
+	//RFC1123Z
+	fmt.Println(goo.TimeString2Time("Mon, 01 Jan 2022 12:00:00 -0700").Format("2006-01-02 15:04:05"))
+	//RFC822  02 Jan 06 15:04 MST
+	fmt.Println(goo.TimeString2Time("01 Jan 22 12:00 MST").Format("2006-01-02 15:04:05"))
+	//RFC822Z
+	fmt.Println(goo.TimeString2Time("01 Jan 22 12:00 -0700").Format("2006-01-02 15:04:05"))
+	//RFC850 Monday, 02-Jan-06 15:04:05 MST
+	fmt.Println(goo.TimeString2Time("Monday, 01-Jan-22 12:00:01 MST").Format("2006-01-02 15:04:05"))
 }
