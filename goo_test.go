@@ -283,10 +283,30 @@ func Test_StructsColumn(t *testing.T) {
 func Test_TimeString2Unix(t *testing.T) {
 	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00"))
 	fmt.Println(goo.TimeString2Unix("2022-01-01"))
+	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00.000000"))
+	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00.000000.000000"))
+	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00.000000.000000.000000"))
+
+	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00.000000.000000.000000.000000"))
+
+	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00.000000.000000.000000.000000.000000"))
+
+	// RFC3339
+	fmt.Println(goo.TimeString2Unix("2022-01-01T00:00:00Z"))
+	// RFC3339Nano
+	fmt.Println(goo.TimeString2Unix("2022-01-01T00:00:00.000000Z"))
+
 }
 
 // func TimeString2Unix(t string) int64
 func Test_TimeString2Time(t *testing.T) {
 	fmt.Println(goo.TimeString2Time("2022-01-01 00:00:00"))
 	fmt.Println(goo.TimeString2Time("2022-01-01"))
+
+	fmt.Println(goo.TimeString2Time("2022-01-01 00:00:00.000000"))
+	// RFC3339
+	fmt.Println(goo.TimeString2Time("2022-01-01T00:00:00Z"))
+	// RFC3339Nano
+	fmt.Println(goo.TimeString2Time("2022-01-01T00:00:00.000000Z"))
+
 }

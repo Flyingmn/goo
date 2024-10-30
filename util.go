@@ -274,6 +274,41 @@ func TimeString2Unix(t string) int64 {
 	}
 	timer, _ := time.ParseInLocation("2006-01-02 15:04:05", t, loc)
 
+	//尝试其他格式， RFC3339
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC3339, t, loc)
+	}
+
+	//尝试其他格式， RFC3339Nano
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC3339Nano, t, loc)
+	}
+
+	//尝试其他格式， RFC1123
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC1123, t, loc)
+	}
+
+	//尝试其他格式， RFC1123Z
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC1123Z, t, loc)
+	}
+
+	//尝试其他格式， RFC822
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC822, t, loc)
+	}
+
+	//尝试其他格式， RFC822Z
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC822Z, t, loc)
+	}
+
+	//尝试其他格式， RFC850
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC850, t, loc)
+	}
+
 	return timer.Unix()
 }
 
@@ -284,6 +319,41 @@ func TimeString2Time(t string) time.Time {
 		t = fmt.Sprintf("%s 00:00:00", t)
 	}
 	timer, _ := time.ParseInLocation("2006-01-02 15:04:05", t, loc)
+
+	//尝试其他格式， RFC3339
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC3339, t, loc)
+	}
+
+	//尝试其他格式， RFC3339Nano
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC3339Nano, t, loc)
+	}
+
+	//尝试其他格式， RFC1123
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC1123, t, loc)
+	}
+
+	//尝试其他格式， RFC1123Z
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC1123Z, t, loc)
+	}
+
+	//尝试其他格式， RFC822
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC822, t, loc)
+	}
+
+	//尝试其他格式， RFC822Z
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC822Z, t, loc)
+	}
+
+	//尝试其他格式， RFC850
+	if timer.IsZero() {
+		timer, _ = time.ParseInLocation(time.RFC850, t, loc)
+	}
 
 	return timer
 }
