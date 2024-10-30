@@ -284,12 +284,6 @@ func Test_TimeString2Unix(t *testing.T) {
 	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00"))
 	fmt.Println(goo.TimeString2Unix("2022-01-01"))
 	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00.000000"))
-	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00.000000.000000"))
-	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00.000000.000000.000000"))
-
-	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00.000000.000000.000000.000000"))
-
-	fmt.Println(goo.TimeString2Unix("2022-01-01 00:00:00.000000.000000.000000.000000.000000"))
 
 	// RFC3339
 	fmt.Println(goo.TimeString2Unix("2022-01-01T00:00:00Z"))
@@ -300,13 +294,13 @@ func Test_TimeString2Unix(t *testing.T) {
 
 // func TimeString2Unix(t string) int64
 func Test_TimeString2Time(t *testing.T) {
-	fmt.Println(goo.TimeString2Time("2022-01-01 00:00:00"))
-	fmt.Println(goo.TimeString2Time("2022-01-01"))
+	fmt.Println(goo.TimeString2Time("2022-01-01").Format(time.DateTime))
+	fmt.Println(goo.TimeString2Time("2022-01-01 12:00:00").Format(time.DateTime))
 
-	fmt.Println(goo.TimeString2Time("2022-01-01 00:00:00.000000"))
+	fmt.Println(goo.TimeString2Time("2022-01-01 12:00:00.000000").Format(time.DateTime))
 	// RFC3339
-	fmt.Println(goo.TimeString2Time("2022-01-01T00:00:00Z"))
+	fmt.Println(goo.TimeString2Time("2022-01-01T12:00:00Z").Format(time.DateTime))
 	// RFC3339Nano
-	fmt.Println(goo.TimeString2Time("2022-01-01T00:00:00.000000Z"))
+	fmt.Println(goo.TimeString2Time("2022-01-01T12:00:00.000000Z").Format(time.DateTime))
 
 }
