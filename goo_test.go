@@ -294,13 +294,13 @@ func Test_TimeString2Unix(t *testing.T) {
 
 // func TimeString2Unix(t string) int64
 func Test_TimeString2Time(t *testing.T) {
-	fmt.Println(goo.TimeString2Time("2022-01-01").Format(time.DateTime))
-	fmt.Println(goo.TimeString2Time("2022-01-01 12:00:00").Format(time.DateTime))
+	fmt.Println(goo.TimeString2Time("2022-01-01").Format("2006-01-02 15:04:05"))
+	fmt.Println(goo.TimeString2Time("2022-01-01 12:00:00").Format("2006-01-02 15:04:05"))
 
-	fmt.Println(goo.TimeString2Time("2022-01-01 12:00:00.000000").Format(time.DateTime))
+	fmt.Println(goo.TimeString2Time("2022-01-01 12:00:00.000000").Format("2006-01-02 15:04:05"))
 	// RFC3339
-	fmt.Println(goo.TimeString2Time("2022-01-01T12:00:00Z").Format(time.DateTime))
+	fmt.Println(goo.TimeString2Time("2022-01-01T12:00:00Z").Format("2006-01-02 15:04:05"))
 	// RFC3339Nano
-	fmt.Println(goo.TimeString2Time("2022-01-01T12:00:00.000000Z").Format(time.DateTime))
+	fmt.Println(goo.TimeString2Time("2022-01-01T12:00:00.000000Z").Format("2006-01-02 15:04:05"))
 
 }
