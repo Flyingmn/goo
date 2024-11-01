@@ -371,3 +371,21 @@ func SafeDivide[T Number](numerator, denominator T) (T, error) {
 
 	return numerator / denominator, nil
 }
+
+func JsonMarshalIndent(jsonData string) string {
+
+	// 解析JSON数据
+	var data map[string]interface{}
+	err := json.Unmarshal([]byte(jsonData), &data)
+	if err != nil {
+		return jsonData
+	}
+
+	// 将解析后的数据重新编码为带缩进的JSON字符串
+	formattedJSON, err := json.MarshalIndent(data, "", "  ")
+	if err != nil {
+		return jsonData
+	}
+
+	return string(formattedJSON)
+}

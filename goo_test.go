@@ -324,3 +324,9 @@ func Test_TimeString2Time(t *testing.T) {
 	//RFC850 Monday, 02-Jan-06 15:04:05 MST
 	fmt.Println(goo.TimeString2Time("Monday, 01-Jan-22 12:00:01 MST").Format("2006-01-02 15:04:05"))
 }
+
+func TestJsonMarshalIndent(t *testing.T) {
+	fmt.Println(goo.JsonMarshalIndent(`{"a":1,"b":2}`))
+	fmt.Println(goo.JsonMarshalIndent(`{"a":1,"b":2`))
+	fmt.Println(goo.JsonMarshalIndent(`{"a":1,"b:2}`))
+}
