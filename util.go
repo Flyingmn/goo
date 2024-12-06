@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -43,6 +44,7 @@ type durChinese struct {
 	Name []rune
 }
 
+// 时间转换为中文
 func DurationToChinese(d time.Duration) string {
 	days := d / (24 * time.Hour)
 	hours := (d % (24 * time.Hour)) / time.Hour
@@ -117,6 +119,7 @@ func IsNumeric(data any) bool {
 	return kind >= reflect.Int && kind <= reflect.Float64
 }
 
+// 判断any是否为数字类型
 func IsInteger(data any) bool {
 	value := reflect.ValueOf(data)
 
@@ -130,6 +133,7 @@ func IsInteger(data any) bool {
 	return kind >= reflect.Int && kind <= reflect.Int64
 }
 
+// 判断any是否为float类型
 func IsFloat(data any) bool {
 	value := reflect.ValueOf(data)
 
@@ -143,7 +147,7 @@ func IsFloat(data any) bool {
 	return kind == reflect.Float32 || kind == reflect.Float64
 }
 
-// 判断变量是否为空
+// 判断any是否为空
 func Empty(v any) bool {
 	if v == nil {
 		return true
@@ -165,7 +169,7 @@ func IsSet[C comparable, V any](m map[C]V, key C) bool {
 	return ok
 }
 
-// 判断map类型的key是否存在, 不存在时返回
+// 判断map类型的key是否存在，存在则转换为制定值的类型, 不存在或无法转换时返回指定的默认值
 func GetMapWsDef[C comparable, V any, DV any](m map[C]V, key C, def DV) (DV, bool) {
 	v, ok := m[key]
 
@@ -235,6 +239,7 @@ func AnyConvert2T[T any](v any, t T) T {
 	return t
 }
 
+// 转换为json字符串，忽略错误
 func MarshalJson(v any) string {
 	jon, err := json.Marshal(v)
 
@@ -245,12 +250,19 @@ func MarshalJson(v any) string {
 	return string(jon)
 }
 
+// 判断any是否为map
 func IsMap(data any) bool {
 	return reflect.TypeOf(data).Kind() == reflect.Map
 }
 
+// 判断any是否为struct
 func IsStruct(data any) bool {
 	val := reflect.ValueOf(data)
+
+	if !val.IsValid() {
+		return false
+	}
+
 	switch val.Kind() {
 	case reflect.Ptr:
 		// 如果是指针类型，则检查它指向的对象是否为 struct
@@ -312,6 +324,7 @@ func TimeString2Unix(t string) int64 {
 	return timer.Unix()
 }
 
+// YYYY-MM-DD H:i:s -> time.Time
 func TimeString2Time(t string) time.Time {
 	loc, _ := time.LoadLocation("Local") // 获取时区
 
@@ -372,6 +385,7 @@ func SafeDivide[T Number](numerator, denominator T) (T, error) {
 	return numerator / denominator, nil
 }
 
+// 格式化json字符串， 带缩进
 func JsonMarshalIndent(jsonData string) string {
 
 	// 解析JSON数据
@@ -388,4 +402,19 @@ func JsonMarshalIndent(jsonData string) string {
 	}
 
 	return string(formattedJSON)
+}
+
+// ParseGormColumnTag 解析 gorm 标签中的 "column" 属性
+func ParseGormColumnTag(tag reflect.StructTag) (columnName string, hasColumn bool) {
+	if tag == "" {
+		return "", false
+	}
+
+	tags := reflect.StructTag(tag)
+	for _, part := range strings.Split(tags.Get("gorm"), ";") {
+		if strings.HasPrefix(part, "column:") {
+			return strings.TrimPrefix(part, "column:"), true
+		}
+	}
+	return "", false
 }

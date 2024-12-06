@@ -330,3 +330,30 @@ func TestJsonMarshalIndent(t *testing.T) {
 	fmt.Println(goo.JsonMarshalIndent(`{"a":1,"b":2`))
 	fmt.Println(goo.JsonMarshalIndent(`{"a":1,"b:2}`))
 }
+
+func TestStructKeys(t *testing.T) {
+	type User struct {
+		Name      string    `json:"name" gorm:"column:user_name"`
+		Age       int       `json:"age" gorm:"column:user_age"`
+		Class     string    `json:"class" gorm:"column:"`
+		CreatedAt time.Time `json:"created_at" gorm:"-"`
+		UpdatedAt time.Time `json:"-" gorm:"column:updated_at"`
+		DeletedAt time.Time
+	}
+	var user = User{Name: "张三", Age: 18}
+	var user2 User
+	fmt.Println(goo.StructKeys(user))
+
+	fmt.Println(goo.StructKeys(&user))
+
+	fmt.Println(goo.StructKeys(&User{}))
+
+	fmt.Println(goo.StructKeys(User{}))
+
+	fmt.Println(goo.StructKeys(user2))
+
+	fmt.Println(goo.StructKeys(1))
+
+	fmt.Println(goo.StructKeys(false))
+
+}
