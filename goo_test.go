@@ -162,6 +162,14 @@ func Test_GetMapWsDef(t *testing.T) {
 	fmt.Println(v, ok)
 }
 
+func Test_GetMapWsDefWsOutOk(t *testing.T) {
+	m := map[int]string{1: "a", 2: "b"}
+	v := goo.GetMapWsDefWsOutOk(m, 1, "")
+	fmt.Println(v)
+	v = goo.GetMapWsDefWsOutOk(m, 3, "")
+	fmt.Println(v)
+}
+
 // func IsFloat(data any) bool
 func Test_IsFloat(t *testing.T) {
 	fmt.Println(goo.IsFloat(1))

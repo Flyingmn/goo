@@ -180,6 +180,17 @@ func GetMapWsDef[C comparable, V any, DV any](m map[C]V, key C, def DV) (DV, boo
 	return AnyConvert2T(v, def), ok
 }
 
+// 判断map类型的key是否存在，存在则转换为制定值的类型, 不存在或无法转换时返回指定的默认值
+func GetMapWsDefWsOutOk[C comparable, V any, DV any](m map[C]V, key C, def DV) DV {
+	v, ok := m[key]
+
+	if !ok {
+		return def
+	}
+
+	return AnyConvert2T(v, def)
+}
+
 /*
 断言 any 类型是否能转换为指定类型，如果是，返回断言后的结果，否则返回指定的值
 */
