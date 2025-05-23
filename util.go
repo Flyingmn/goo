@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math/rand"
 	"reflect"
 	"strconv"
 	"strings"
@@ -433,4 +434,9 @@ func ParseGormColumnTag(tag reflect.StructTag) (columnName string, hasColumn boo
 		}
 	}
 	return "", false
+}
+
+func RandomIntInRange(min, max int) int {
+	rand.Seed(time.Now().UnixNano())
+	return rand.Intn(max-min+1) + min
 }

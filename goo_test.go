@@ -420,3 +420,13 @@ func TestStructKeys(t *testing.T) {
 	fmt.Println(goo.StructKeys(false))
 
 }
+
+func Test_ConcurrentWithLimit(t *testing.T) {
+	ret := goo.ConcurrentWithLimit([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5, func(item int) error {
+		fmt.Println(item)
+		time.Sleep(time.Second * time.Duration(goo.RandomIntInRange(1, 5)))
+		return nil
+	})
+
+	fmt.Println(ret)
+}
