@@ -60,7 +60,7 @@ func Test_ArrayKeys(t *testing.T) {
 }
 
 func Test_ArrayPluck(t *testing.T) {
-	fmt.Println(goo.ArrayPluck([]map[string]int{
+	data := goo.ArrayPluck([]map[string]int{
 		{
 			"a": 1,
 			"b": 2,
@@ -76,12 +76,41 @@ func Test_ArrayPluck(t *testing.T) {
 			"b": 8,
 			"c": 9,
 		},
-	}, "a", "b"))
+	}, "a", "b")
+
+	fmt.Println(data)
 }
 
-// func ArrayPluckWithType[T ~[]M, M ~map[string]V, K string, V comparable, KD comparable, VD comparable](arr T, kName string, kDef KD, vName string, vDef VD) map[KD]VD
-func Test_ArrayPluckWithType(t *testing.T) {
-	fmt.Println(goo.ArrayPluckWithType([]map[string]int{
+func Test_StructsPluck(t *testing.T) {
+	type User struct {
+		Name string
+		Age  int
+		Id   int
+	}
+	users := []User{
+		{
+			Name: "张三",
+			Age:  20,
+			Id:   1,
+		},
+		{
+			Name: "李四",
+			Age:  19,
+			Id:   2,
+		},
+		{
+			Name: "王五",
+			Age:  18,
+			Id:   3,
+		},
+	}
+	fmt.Println(goo.StructsPluck(users, func(user User) (int, string) {
+		return user.Id, user.Name
+	}))
+}
+
+func Test_ArrayReIndex(t *testing.T) {
+	fmt.Println(goo.ArrayReIndex([]map[string]int{
 		{
 			"a": 1,
 			"b": 2,
@@ -97,7 +126,35 @@ func Test_ArrayPluckWithType(t *testing.T) {
 			"b": 8,
 			"c": 9,
 		},
-	}, "a", 0, "b", 0))
+	}, "a"))
+}
+
+func Test_StructsReIndex(t *testing.T) {
+	type User struct {
+		Name string
+		Age  int
+		Id   int
+	}
+	users := []User{
+		{
+			Name: "张三",
+			Age:  20,
+			Id:   1,
+		},
+		{
+			Name: "李四",
+			Age:  19,
+			Id:   2,
+		},
+		{
+			Name: "王五",
+			Age:  18,
+			Id:   3,
+		},
+	}
+	fmt.Println(goo.StructsReIndex(users, func(user User) int {
+		return user.Id
+	}))
 }
 
 // func ArrayUnique[T comparable](arr []T) []T
@@ -273,18 +330,12 @@ func Test_StructsColumn(t *testing.T) {
 		{Name: "李四", Age: 19},
 		{Name: "王五", Age: 20},
 	}
-	var names, err = goo.StructsColumn(users, "Name", "")
+	names := goo.StructsColumn(users, func(u User) string {
+		return u.Name
+	})
 
-	fmt.Println(names, err)
+	fmt.Println(names)
 
-	var i *int
-	var s = ""
-	var sb = []byte{}
-
-	var st struct{}
-	var stp *struct{}
-
-	fmt.Println(goo.StructsColumn([]any{i, s, sb, st, stp, reflect.ValueOf(i), reflect.ValueOf(i).Elem()}, "Name", ""))
 }
 
 // func TimeString2Time(t string) time.Time

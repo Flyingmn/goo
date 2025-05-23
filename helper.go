@@ -11,8 +11,8 @@ func ArrayColumn[T ~[]M, M ~map[K]V, K comparable, V any](arr T, k K) []V {
 	result := make([]V, 0, len(arr))
 
 	for _, v := range arr {
-		if v, ok := v[k]; ok {
-			result = append(result, v)
+		if v1, ok := v[k]; ok {
+			result = append(result, v1)
 		}
 	}
 
@@ -20,37 +20,14 @@ func ArrayColumn[T ~[]M, M ~map[K]V, K comparable, V any](arr T, k K) []V {
 }
 
 // ArrayColumn 的 struct 版本
-func StructsColumn[T any, V any](structs []T, name string, defValue V) ([]V, error) {
-	result := make([]V, 0, len(structs))
+func StructsColumn[T any, V any](structs []T, kefFunc func(T) V) []V {
+	var result []V
 
 	for _, v := range structs {
-		val := reflect.ValueOf(v)
-
-		if !val.IsValid() {
-			result = append(result, defValue)
-			continue
-		}
-
-		if val.Kind() == reflect.Ptr {
-			val = val.Elem()
-		}
-
-		if val.Kind() != reflect.Struct {
-			return nil, errors.New("data is't struct")
-		}
-
-		field := val.FieldByName(name)
-
-		if !field.IsValid() {
-			return nil, errors.New("field is't valid")
-		}
-
-		value := AnyConvert2T(field.Interface(), defValue)
-
-		result = append(result, value)
+		result = append(result, kefFunc(v))
 	}
 
-	return result, nil
+	return result
 }
 
 // ArrayChunk 将一个数组分割为多个指定大小的子数组
@@ -161,18 +138,39 @@ func ArrayPluck[T ~[]M, M ~map[string]V, K string, V comparable](arr T, kName, v
 	return res
 }
 
-// 在ArrayPluck 的基础上，指定map的key和value的类型
-func ArrayPluckWithType[T ~[]M, M ~map[string]V, K string, V comparable, KD comparable, VD comparable](arr T, kName string, kDef KD, vName string, vDef VD) map[KD]VD {
-	res := make(map[KD]VD)
+// struct数组，返回一个以指定key作为键，指定key作为值的新map
+func StructsPluck[T any, K comparable, V any](slice []T, kvFunc func(T) (K, V)) map[K]V {
+	res := make(map[K]V)
 
-	for _, item := range arr {
-		k, _ := GetMapWsDef(item, kName, kDef)
-		val, _ := GetMapWsDef(item, vName, vDef)
-
-		res[k] = val
+	for _, item := range slice {
+		k, v := kvFunc(item)
+		res[k] = v
 	}
 
 	return res
+}
+
+// ArrayReIndex 从二维数组中提取指定列的值重排索引
+func ArrayReIndex[T ~[]M, M ~map[K]V, K comparable, V comparable](arr T, idx K) map[V]M {
+	result := make(map[V]M)
+
+	for _, v := range arr {
+		if v1, ok := v[idx]; ok {
+			result[v1] = v
+		}
+	}
+
+	return result
+}
+
+// StructReIndex 从结构体数组中提取指定字段的值重排索引
+func StructsReIndex[T any, K comparable](slice []T, keyFunc func(T) K) map[K]T {
+	result := make(map[K]T)
+	for _, item := range slice {
+		key := keyFunc(item)
+		result[key] = item
+	}
+	return result
 }
 
 // 返回数组的差集
