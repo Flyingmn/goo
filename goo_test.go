@@ -87,7 +87,7 @@ func Test_StructsPluck(t *testing.T) {
 		Age  int
 		Id   int
 	}
-	users := []User{
+	users := []*User{
 		{
 			Name: "张三",
 			Age:  20,
@@ -104,8 +104,12 @@ func Test_StructsPluck(t *testing.T) {
 			Id:   3,
 		},
 	}
-	fmt.Println(goo.StructsPluck(users, func(user User) (int, string) {
+	fmt.Println(goo.StructsPluck(users, func(user *User) (int, string) {
 		return user.Id, user.Name
+	}))
+
+	fmt.Println(goo.StructsPluck(users, func(user *User) (int, *User) {
+		return user.Id, user
 	}))
 }
 
@@ -153,7 +157,7 @@ func Test_StructsReIndex(t *testing.T) {
 		},
 	}
 	fmt.Println(goo.StructsReIndex(users, func(user User) int {
-		return user.Id
+		return user.Age
 	}))
 }
 
