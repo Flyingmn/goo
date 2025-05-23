@@ -203,9 +203,13 @@ func AnyConvert2T[T any](v any, t T) T {
 		return t
 	}
 
-	//如果是指针类型，先尝试获取指针指向的值
+	//如果是指针类型,并且指针指向的是 string || int || float，先尝试获取指针指向的值
 	if vVal.Kind() == reflect.Ptr {
-		vVal = vVal.Elem()
+		if vVal.Elem().Kind() == reflect.String || // string
+			(vVal.Elem().Kind() >= reflect.Int && vVal.Elem().Kind() <= reflect.Int64) || // int
+			vVal.Elem().Kind() == reflect.Float32 || vVal.Elem().Kind() == reflect.Float64 { // float
+			v = vVal.Elem().Interface()
+		}
 	}
 
 	//如果原类型string, 并且目标类型是int,尝试转换
