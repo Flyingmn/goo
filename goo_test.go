@@ -23,6 +23,19 @@ func TestAnyConvert2T(t *testing.T) {
 	fmt.Println(goo.AnyConvert2T("1", float64(0)))
 	fmt.Println(goo.AnyConvert2T(float64(0), ""))
 	fmt.Println(goo.AnyConvert2T([]byte{'1'}, float64(0)))
+
+	var vint int = 1
+	fmt.Println("vint:", goo.AnyConvert2T(&vint, int(0)))
+
+	type user struct {
+		Name string
+	}
+	u := &user{
+		Name: "张三",
+	}
+
+	var ua any = u
+	fmt.Println("user:", goo.AnyConvert2T(ua, &user{}))
 }
 
 // func ArrayChunk[T ~[]V, V any](s T, size int) []T
