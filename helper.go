@@ -216,6 +216,14 @@ func ArrayUnique[T comparable](arr []T) []T {
 	return result
 }
 
+func Each[T any, R any](arr []T, callback func(T, int) R) []R {
+	result := make([]R, 0, len(arr))
+	for i, item := range arr {
+		result = append(result, callback(item, i))
+	}
+	return result
+}
+
 // 数组随机打乱
 func SliceShuffle[T any](arr []T) []T {
 	for i := len(arr) - 1; i > 0; i-- {
