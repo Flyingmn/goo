@@ -247,3 +247,55 @@ func MapMerge[K comparable, V any](maps ...map[K]V) map[K]V {
 
 	return result
 }
+
+// 取交集
+func Intersection[T comparable](a, b []T) []T {
+	set := make(map[T]bool)
+	result := []T{}
+
+	// 将第一个slice放入set中
+	for _, item := range a {
+		set[item] = true
+	}
+
+	// 检查第二个slice中的元素是否在set中
+	for _, item := range b {
+		if _, found := set[item]; found {
+			result = append(result, item)
+			delete(set, item) // 避免重复添加
+		}
+	}
+
+	return result
+}
+
+func Difference[T comparable](a, b []T) []T {
+	// 创建 map 记录 b 中的元素
+	setB := make(map[T]bool)
+	for _, item := range b {
+		setB[item] = true
+	}
+
+	result := []T{}
+	added := make(map[T]bool) // 避免重复添加
+
+	// 找出在 a 中但不在 b 中的元素
+	for _, item := range a {
+		if !setB[item] && !added[item] {
+			result = append(result, item)
+			added[item] = true
+		}
+	}
+
+	return result
+}
+
+func SymmetricDifference[T comparable](a, b []T) []T {
+	// A - B
+	diffAB := Difference(a, b)
+	// B - A
+	diffBA := Difference(b, a)
+
+	// 合并结果
+	return append(diffAB, diffBA...)
+}

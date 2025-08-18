@@ -451,3 +451,15 @@ func Test_Each(t *testing.T) {
 
 	fmt.Println(datas)
 }
+
+func Test_Intersection(t *testing.T) {
+	fmt.Println(goo.Intersection([]int{1, 2, 3, 4, 5}, []int{2, 3, 4, 5, 6, 7}))
+}
+
+func Test_Difference(t *testing.T) {
+	fmt.Println(goo.Difference([]int{1, 2, 3, 4, 5}, []int{2, 3, 4, 5, 6, 7}))
+}
+
+func Test_SymmetricDifference(t *testing.T) {
+	fmt.Println(goo.SymmetricDifference([]int{1, 2, 3, 4, 5}, []int{2, 3, 4, 5, 6, 7}))
+}
