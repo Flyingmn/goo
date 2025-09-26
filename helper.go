@@ -299,3 +299,19 @@ func SymmetricDifference[T comparable](a, b []T) []T {
 	// 合并结果
 	return append(diffAB, diffBA...)
 }
+
+func ChunkExec[V any, R any](values []V, chunkNum int, f func(miniVals []V) ([]R, error)) (res []R, errs error) {
+	chunks := ArrayChunk(values, chunkNum)
+
+	for _, chunk := range chunks {
+		miniRes, minierr := f(chunk)
+		if minierr != nil {
+			errs = errors.Join(errs, minierr)
+			continue
+		}
+
+		res = append(res, miniRes...)
+	}
+
+	return res, errs
+}
