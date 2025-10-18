@@ -444,6 +444,16 @@ func Test_ConcurrentWithLimit(t *testing.T) {
 	fmt.Println(ret)
 }
 
+func Test_ConcurrentWithLimitRetErrs(t *testing.T) {
+	ret, err := goo.ConcurrentWithLimitRetErrs([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5, func(item int) (int, error) {
+		fmt.Println(item)
+		time.Sleep(time.Second * time.Duration(goo.RandomIntInRange(1, 5)))
+		return item, nil
+	})
+
+	fmt.Println(ret, err)
+}
+
 func Test_Each(t *testing.T) {
 	datas := goo.Each([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, func(item int, i int) string {
 		return fmt.Sprintf("_%d>", item)

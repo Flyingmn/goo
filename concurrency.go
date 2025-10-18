@@ -33,15 +33,16 @@ func ConcurrentWithLimitRetErrs[A, B any](data []A, limit int, processFunc func(
 
 		errs error
 
-		back []B
+		back     []B
+		backLock sync.Mutex
 
 		semaphore = make(chan struct{}, limit)
 	)
 
-	for k, a := range data {
+	for _, a := range data {
 		wg.Add(1)
 		semaphore <- struct{}{}
-		go func(ik int, ia A) {
+		go func(ia A) {
 			defer func() {
 				<-semaphore
 				wg.Done()
@@ -52,9 +53,10 @@ func ConcurrentWithLimitRetErrs[A, B any](data []A, limit int, processFunc func(
 				errs = errors.Join(errs, err)
 				return
 			}
-
-			back[ik] = ret
-		}(k, a)
+			backLock.Lock()
+			back = append(back, ret)
+			backLock.Unlock()
+		}(a)
 	}
 
 	wg.Wait()
