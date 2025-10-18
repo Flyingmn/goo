@@ -33,7 +33,7 @@ func ConcurrentWithLimitRetErrs[A, B any](data []A, limit int, processFunc func(
 
 		errs error
 
-		back = make([]B, len(data))
+		back []B
 
 		semaphore = make(chan struct{}, limit)
 	)
