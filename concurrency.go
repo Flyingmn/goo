@@ -27,7 +27,7 @@ func ConcurrentWithLimit[A, B any](data []A, limit int, processFunc func(A) B) [
 	return back
 }
 
-func ConcurrentWithLimitAndExtraParams[A, B any, EK comparable, EV any](data []A, limit int, extra map[EK]EV, processFunc func(A, map[EK]EV) (B, error)) ([]B, error) {
+func ConcurrentWithLimitRetErrs[A, B any](data []A, limit int, processFunc func(A) (B, error)) ([]B, error) {
 	var (
 		wg sync.WaitGroup
 
@@ -46,7 +46,7 @@ func ConcurrentWithLimitAndExtraParams[A, B any, EK comparable, EV any](data []A
 				<-semaphore
 				wg.Done()
 			}()
-			ret, err := processFunc(ia, extra)
+			ret, err := processFunc(ia)
 
 			if err != nil {
 				errs = errors.Join(errs, err)

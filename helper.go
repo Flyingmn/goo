@@ -315,19 +315,3 @@ func ChunkExec[V any, R any](values []V, chunkNum int, f func(miniVals []V) ([]R
 
 	return res, errs
 }
-
-func ChunkExecWithExtraParams[V any, R any, EK comparable, EV any](values []V, chunkNum int, extra map[EK]EV, f func(miniVals []V, extra map[EK]EV) ([]R, error)) (res []R, errs error) {
-	chunks := ArrayChunk(values, chunkNum)
-
-	for _, chunk := range chunks {
-		miniRes, minierr := f(chunk, extra)
-		if minierr != nil {
-			errs = errors.Join(errs, minierr)
-			continue
-		}
-
-		res = append(res, miniRes...)
-	}
-
-	return res, errs
-}
