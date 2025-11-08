@@ -63,6 +63,11 @@ func Test_ArrayDiff(t *testing.T) {
 		[]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
 		[]int{1, 2},
 	))
+
+	fmt.Println(goo.ArrayDiff(
+		[]int{1, 2},
+		[]int{2, 3, 4, 5, 6, 7, 8, 9, 10},
+	))
 }
 
 func Test_ArrayKeys(t *testing.T) {
@@ -322,11 +327,13 @@ func Test_MarshalJson(t *testing.T) {
 	fmt.Println(goo.MarshalJson("111"))
 	fmt.Println(goo.MarshalJson(nil))
 
-	fmt.Println(goo.MarshalJson(map[string]func(){
+	mFuncRes := goo.MarshalJson(map[string]func(){
 		"a": func() {
 			fmt.Println("a")
 		},
-	}))
+	})
+
+	fmt.Println("\nmFuncRes:", mFuncRes)
 }
 
 // func Md5(input string) string

@@ -12,6 +12,7 @@ import (
 	"time"
 )
 
+// 返回一个字符串的md5值
 func Md5(input string) string {
 	hasher := md5.New()         // 创建一个md5 Hash对象
 	hasher.Write([]byte(input)) // 将字符串写入hasher
@@ -167,6 +168,32 @@ func IsSet[C comparable, V any](m map[C]V, key C) bool {
 	return ok
 }
 
+// 判断any是否为map
+func IsMap(data any) bool {
+	return reflect.TypeOf(data).Kind() == reflect.Map
+}
+
+// 判断any是否为struct
+func IsStruct(data any) bool {
+	val := reflect.ValueOf(data)
+
+	if !val.IsValid() {
+		return false
+	}
+
+	switch val.Kind() {
+	case reflect.Ptr:
+		// 如果是指针类型，则检查它指向的对象是否为 struct
+		return val.Elem().Kind() == reflect.Struct
+	case reflect.Struct:
+		// 如果本身就是 struct 类型
+		return true
+	default:
+		// 其他情况返回 false
+		return false
+	}
+}
+
 // 判断map类型的key是否存在，存在则转换为制定值的类型, 不存在或无法转换时返回指定的默认值
 func GetMapWsDef[C comparable, V any, DV any](m map[C]V, key C, def DV) (DV, bool) {
 	v, ok := m[key]
@@ -257,7 +284,7 @@ func AnyConvert2T[T any](v any, t T) T {
 	return t
 }
 
-// 转换为json字符串，忽略错误
+// any转换为json字符串,忽略错; 字符串的any会直接返回字符串,如果报错会返回空字符串
 func MarshalJson(v any) string {
 	jon, err := json.Marshal(v)
 
@@ -268,34 +295,44 @@ func MarshalJson(v any) string {
 	return string(jon)
 }
 
-// 判断any是否为map
-func IsMap(data any) bool {
-	return reflect.TypeOf(data).Kind() == reflect.Map
-}
+// 格式化json字符串， 带缩进
+func JsonMarshalIndent(jsonData string) string {
 
-// 判断any是否为struct
-func IsStruct(data any) bool {
-	val := reflect.ValueOf(data)
-
-	if !val.IsValid() {
-		return false
+	// 解析JSON数据
+	var data map[string]any
+	err := json.Unmarshal([]byte(jsonData), &data)
+	if err != nil {
+		return jsonData
 	}
 
-	switch val.Kind() {
-	case reflect.Ptr:
-		// 如果是指针类型，则检查它指向的对象是否为 struct
-		return val.Elem().Kind() == reflect.Struct
-	case reflect.Struct:
-		// 如果本身就是 struct 类型
-		return true
-	default:
-		// 其他情况返回 false
-		return false
-	}
+	// 将解析后的数据重新编码为带缩进的JSON字符串
+	formattedJSON, _ := json.MarshalIndent(data, "", "  ")
+
+	return string(formattedJSON)
 }
 
-// YYYY-MM-DD -> unix
-// YYYY-MM-DD hh:mm:ss -> unix
+// ParseGormColumnTag 解析 gorm 标签中的 "column" 属性
+func ParseGormColumnTag(tag reflect.StructTag) (columnName string, hasColumn bool) {
+	if tag == "" {
+		return "", false
+	}
+
+	tags := reflect.StructTag(tag)
+	for _, part := range strings.Split(tags.Get("gorm"), ";") {
+		if strings.HasPrefix(part, "column:") {
+			return strings.TrimPrefix(part, "column:"), true
+		}
+	}
+
+	return "", false
+}
+
+func RandomIntInRange(min, max int) int {
+	rand.Seed(time.Now().UnixNano())
+	return rand.Intn(max-min+1) + min
+}
+
+// 时间字符串转为unix时间戳；YYYY-MM-DD hh:mm:ss -> unix， YYYY-MM-DD -> unix
 func TimeString2Unix(t string) int64 {
 	loc, _ := time.LoadLocation("Local") // 获取时区
 
@@ -342,7 +379,7 @@ func TimeString2Unix(t string) int64 {
 	return timer.Unix()
 }
 
-// YYYY-MM-DD H:i:s -> time.Time
+// 时间字符串转为time.Time；YYYY-MM-DD H:i:s -> time.Time
 func TimeString2Time(t string) time.Time {
 	loc, _ := time.LoadLocation("Local") // 获取时区
 
@@ -401,41 +438,4 @@ func SafeDivide[T Number](numerator, denominator T) (T, error) {
 	}
 
 	return numerator / denominator, nil
-}
-
-// 格式化json字符串， 带缩进
-func JsonMarshalIndent(jsonData string) string {
-
-	// 解析JSON数据
-	var data map[string]any
-	err := json.Unmarshal([]byte(jsonData), &data)
-	if err != nil {
-		return jsonData
-	}
-
-	// 将解析后的数据重新编码为带缩进的JSON字符串
-	formattedJSON, _ := json.MarshalIndent(data, "", "  ")
-
-	return string(formattedJSON)
-}
-
-// ParseGormColumnTag 解析 gorm 标签中的 "column" 属性
-func ParseGormColumnTag(tag reflect.StructTag) (columnName string, hasColumn bool) {
-	if tag == "" {
-		return "", false
-	}
-
-	tags := reflect.StructTag(tag)
-	for _, part := range strings.Split(tags.Get("gorm"), ";") {
-		if strings.HasPrefix(part, "column:") {
-			return strings.TrimPrefix(part, "column:"), true
-		}
-	}
-
-	return "", false
-}
-
-func RandomIntInRange(min, max int) int {
-	rand.Seed(time.Now().UnixNano())
-	return rand.Intn(max-min+1) + min
 }
