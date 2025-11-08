@@ -1,4 +1,4 @@
-## 💁‍♂️ Goo
+## 🍴 Goo
 [![Go](https://github.com/Flyingmn/goo/actions/workflows/main.yml/badge.svg)](https://github.com/Flyingmn/goo/actions/workflows/main.yml) [![codecov](https://codecov.io/github/Flyingmn/goo/graph/badge.svg?token=UL045K7ESR)](https://codecov.io/github/Flyingmn/goo) [![Go Report Card](https://goreportcard.com/badge/github.com/Flyingmn/goo)](https://goreportcard.com/report/github.com/Flyingmn/goo) [![Go Reference](https://pkg.go.dev/badge/github.com/Flyingmn/goo.svg)](https://pkg.go.dev/github.com/Flyingmn/goo) ![Static Badge](https://img.shields.io/badge/License-MIT-blue)
 
 一个实用的 Go 语言工具库，提供了一系列常用的辅助函数和工具类，简化日常开发工作。 <br>
@@ -33,7 +33,7 @@ func main() {
 完整的 API 文档请访问: [pkg.go.dev/github.com/Flyingmn/goo](pkg.go.dev/github.com/Flyingmn/goo)
 
 
-## 模块信息
+## 📎 模块信息
 
 当前版本: v1.1.31<br>
 <br>
@@ -41,8 +41,9 @@ Go 版本要求: 1.18 或更高<br>
 
 
 ## 🏗️ 项目结构
-```text
+
 根据 Go 模块标准布局，该项目包含：
+```text
 
 github.com/Flyingmn/goo/
 ├── go.mod          # 模块定义
