@@ -4,6 +4,7 @@ import (
 	"errors"
 	"math/rand"
 	"reflect"
+	"strings"
 )
 
 // ArrayColumn 从二维数组中提取指定列的值
@@ -306,7 +307,7 @@ func ChunkExec[V any, R any](values []V, chunkNum int, f func(miniVals []V) ([]R
 	for _, chunk := range chunks {
 		miniRes, minierr := f(chunk)
 		if minierr != nil {
-			errs = errors.Join(errs, minierr)
+			errs = ErrJoin(errs, minierr)
 			continue
 		}
 
@@ -314,4 +315,21 @@ func ChunkExec[V any, R any](values []V, chunkNum int, f func(miniVals []V) ([]R
 	}
 
 	return res, errs
+}
+
+func ErrJoin(errs ...error) error {
+
+	var errsStrList []string
+
+	for _, err := range errs {
+		if err != nil {
+			errsStrList = append(errsStrList, err.Error())
+		}
+	}
+
+	if len(errsStrList) == 0 {
+		return nil
+	}
+
+	return errors.New(strings.Join(errsStrList, ","))
 }

@@ -1,7 +1,6 @@
 package goo
 
 import (
-	"errors"
 	"sync"
 )
 
@@ -50,7 +49,7 @@ func ConcurrentWithLimitRetErrs[A, B any](data []A, limit int, processFunc func(
 			ret, err := processFunc(ia)
 
 			if err != nil {
-				errs = errors.Join(errs, err)
+				errs = ErrJoin(errs, err)
 				return
 			}
 			backLock.Lock()
