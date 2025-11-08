@@ -427,7 +427,7 @@ func Test_StructKeys(t *testing.T) {
 		DeletedAt time.Time `json:"-" gorm:"default:null"`
 		IsDeleted bool      `json:"is_deleted" gorm:""`
 	}
-	var user = User{Name: "张三", Age: 18}
+	var user = User{Name: "张三", Age: 18, Class: "1班", CreatedAt: time.Now(), UpdatedAt: time.Now(), DeletedAt: time.Now(), IsDeleted: true}
 	var user2 User
 	fmt.Println(goo.StructKeys(user))
 
