@@ -453,10 +453,29 @@ func Test_ConcurrentWithLimitRetErrs(t *testing.T) {
 	})
 
 	fmt.Println(ret, err)
+
+	ret2, err2 := goo.ConcurrentWithLimitRetErrs([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, func(item int) (int, error) {
+		//随机返回error
+		if goo.RandomIntInRange(1, 10)%2 == 0 {
+			return item, errors.New("ConcurrentWithLimitRetErrs test fail")
+		}
+
+		fmt.Println(item)
+		time.Sleep(time.Second * time.Duration(goo.RandomIntInRange(1, 5)))
+		return item, nil
+	})
+
+	fmt.Println(ret2, err2)
+
 }
 
 func Test_ChunkExec(t *testing.T) {
-	ret, err := goo.ChunkExec([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5, func(miniVals []int) ([]int, error) {
+	ret, err := goo.ChunkExec([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2, func(miniVals []int) ([]int, error) {
+		//随机返回error
+		if goo.RandomIntInRange(1, 10)%2 == 0 {
+			return miniVals, errors.New("ChunkExec test fail")
+		}
+
 		fmt.Println(miniVals)
 		return miniVals, nil
 	})
