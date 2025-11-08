@@ -30,7 +30,7 @@ func main() {
 ```
 ## 📖 文档
 
-完整的 API 文档请访问: [pkg.go.dev/github.com/Flyingmn/goo](pkg.go.dev/github.com/Flyingmn/goo)
+完整的 API 文档请访问: [pkg.go.dev/github.com/Flyingmn/goo](https://pkg.go.dev/github.com/Flyingmn/goo)
 
 
 ## 📎 模块信息
