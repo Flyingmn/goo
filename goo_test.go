@@ -1,6 +1,7 @@
 package goo_test
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 	"testing"
@@ -472,4 +473,8 @@ func Test_Difference(t *testing.T) {
 
 func Test_SymmetricDifference(t *testing.T) {
 	fmt.Println(goo.SymmetricDifference([]int{1, 2, 3, 4, 5}, []int{2, 3, 4, 5, 6, 7}))
+}
+
+func Test_ErrJoin(t *testing.T) {
+	fmt.Println(goo.ErrJoin(errors.New("1"), nil, errors.New("2")))
 }
