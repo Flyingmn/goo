@@ -150,9 +150,6 @@ func IsFloat(data any) bool {
 
 // 判断any是否为空
 func Empty(v any) bool {
-	if v == nil {
-		return true
-	}
 
 	val := reflect.ValueOf(v)
 
@@ -410,17 +407,14 @@ func SafeDivide[T Number](numerator, denominator T) (T, error) {
 func JsonMarshalIndent(jsonData string) string {
 
 	// 解析JSON数据
-	var data map[string]interface{}
+	var data map[string]any
 	err := json.Unmarshal([]byte(jsonData), &data)
 	if err != nil {
 		return jsonData
 	}
 
 	// 将解析后的数据重新编码为带缩进的JSON字符串
-	formattedJSON, err := json.MarshalIndent(data, "", "  ")
-	if err != nil {
-		return jsonData
-	}
+	formattedJSON, _ := json.MarshalIndent(data, "", "  ")
 
 	return string(formattedJSON)
 }
@@ -437,6 +431,7 @@ func ParseGormColumnTag(tag reflect.StructTag) (columnName string, hasColumn boo
 			return strings.TrimPrefix(part, "column:"), true
 		}
 	}
+
 	return "", false
 }
 

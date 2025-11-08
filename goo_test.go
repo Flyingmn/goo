@@ -211,21 +211,28 @@ func Test_DurationToChinese(t *testing.T) {
 // func Empty(v any) bool
 
 func Test_Empty(t *testing.T) {
-	fmt.Println(goo.Empty(nil))
-	fmt.Println(goo.Empty(0))
-	fmt.Println(goo.Empty(0.0))
-	fmt.Println(goo.Empty(""))
-	fmt.Println(goo.Empty(false))
-	fmt.Println(goo.Empty([]int{}))
-	fmt.Println(goo.Empty(map[int]int{}))
-	fmt.Println(goo.Empty(struct{}{}))
+	fmt.Println("nil", goo.Empty(nil))
+	fmt.Println("0", goo.Empty(0))
+	fmt.Println("0.0", goo.Empty(0.0))
+	fmt.Println("''", goo.Empty(""))
+	fmt.Println("false", goo.Empty(false))
+	fmt.Println("[]int{}", goo.Empty([]int{}))
+	fmt.Println("map[int]int{}", goo.Empty(map[int]int{}))
+	fmt.Println("struct{}{}", goo.Empty(struct{}{}))
+
+	var m = map[string]any{
+		"test": 1,
+	}
+	//IsValid
+	fmt.Println("m[\"not exists\"]", goo.Empty(m["not exists"]))
 
 	var i *int
 
-	fmt.Println(goo.Empty(reflect.ValueOf(i)))
+	fmt.Println("reflect.ValueOf(i)", goo.Empty(reflect.ValueOf(i)))
 
 	var s *struct{}
-	fmt.Println(goo.Empty(reflect.ValueOf(s)))
+	fmt.Println("s", goo.Empty(s))
+	fmt.Println("reflect.ValueOf(s)", goo.Empty(reflect.ValueOf(s)))
 }
 
 // func GetMapWsDef[C comparable, V any, DV any](m map[C]V, key C, def DV) (DV, bool)
@@ -298,6 +305,7 @@ func Test_IsStruct(t *testing.T) {
 	fmt.Println(goo.IsStruct(map[string]string{}))
 	fmt.Println(goo.IsStruct(struct{}{}))
 	fmt.Println(goo.IsStruct(&struct{}{}))
+	fmt.Println(goo.IsStruct(nil))
 }
 
 // func MapMerge[K comparable, V any](maps ...map[K]V) map[K]V
@@ -402,20 +410,21 @@ func Test_TimeString2Time(t *testing.T) {
 	fmt.Println(goo.TimeString2Time("Monday, 01-Jan-22 12:00:01 MST").Format("2006-01-02 15:04:05"))
 }
 
-func TestJsonMarshalIndent(t *testing.T) {
+func Test_JsonMarshalIndent(t *testing.T) {
 	fmt.Println(goo.JsonMarshalIndent(`{"a":1,"b":2}`))
 	fmt.Println(goo.JsonMarshalIndent(`{"a":1,"b":2`))
 	fmt.Println(goo.JsonMarshalIndent(`{"a":1,"b:2}`))
+	fmt.Println(goo.JsonMarshalIndent(`666`))
 }
 
-func TestStructKeys(t *testing.T) {
+func Test_StructKeys(t *testing.T) {
 	type User struct {
 		Name      string    `json:"name" gorm:"column:user_name"`
 		Age       int       `json:"age" gorm:"column:user_age"`
 		Class     string    `json:"class" gorm:"column:"`
 		CreatedAt time.Time `json:"created_at" gorm:"-"`
 		UpdatedAt time.Time `json:"-" gorm:"column:updated_at"`
-		DeletedAt time.Time
+		DeletedAt time.Time `json:"-" gorm:"default:null"`
 	}
 	var user = User{Name: "张三", Age: 18}
 	var user2 User
@@ -433,6 +442,12 @@ func TestStructKeys(t *testing.T) {
 
 	fmt.Println(goo.StructKeys(false))
 
+	fmt.Println(goo.StructKeys("notExistsTag"))
+
+}
+
+func Test_ParseGormColumnTag(t *testing.T) {
+	fmt.Println(goo.ParseGormColumnTag("column"))
 }
 
 func Test_ConcurrentWithLimit(t *testing.T) {
