@@ -1,7 +1,8 @@
 ## 💁‍♂️ Goo
 [![Go](https://github.com/Flyingmn/goo/actions/workflows/main.yml/badge.svg)](https://github.com/Flyingmn/goo/actions/workflows/main.yml) [![codecov](https://codecov.io/github/Flyingmn/goo/graph/badge.svg?token=UL045K7ESR)](https://codecov.io/github/Flyingmn/goo) [![Go Report Card](https://goreportcard.com/badge/github.com/Flyingmn/goo)](https://goreportcard.com/report/github.com/Flyingmn/goo) [![Go Reference](https://pkg.go.dev/badge/github.com/Flyingmn/goo.svg)](https://pkg.go.dev/github.com/Flyingmn/goo) ![Static Badge](https://img.shields.io/badge/License-MIT-blue)
 
-一个实用的 Go 语言工具库，提供了一系列常用的辅助函数和工具类，简化日常开发工作。 👉️👉️👉️只用golang的内置包👈️👈️👈️
+一个实用的 Go 语言工具库，提供了一系列常用的辅助函数和工具类，简化日常开发工作。 
+👉️👉️👉️只用golang的内置包👈️👈️👈️
 
 ## 📦 安装
 ```bash
@@ -29,7 +30,7 @@ func main() {
 ```
 ## 📖 文档
 ```text
-完整的 API 文档请访问: pkg.go.dev/github.com/Flyingmn/goo[pkg.go.dev/github.com/Flyingmn/goo]
+完整的 API 文档请访问: [pkg.go.dev/github.com/Flyingmn/goo](pkg.go.dev/github.com/Flyingmn/goo)
 ```
 
 ## 模块信息
