@@ -426,6 +426,7 @@ func Test_StructKeys(t *testing.T) {
 		UpdatedAt time.Time `json:"-" gorm:"column:updated_at"`
 		DeletedAt time.Time `json:"-" gorm:"default:null"`
 		IsDeleted bool      `json:"is_deleted" gorm:""`
+		IsActive  bool      ``
 	}
 	var user = User{Name: "张三", Age: 18, Class: "1班", CreatedAt: time.Now(), UpdatedAt: time.Now(), DeletedAt: time.Now(), IsDeleted: true}
 	var user2 User
@@ -449,6 +450,7 @@ func Test_StructKeys(t *testing.T) {
 
 func Test_ParseGormColumnTag(t *testing.T) {
 	fmt.Println(goo.ParseGormColumnTag("column"))
+	fmt.Println(goo.ParseGormColumnTag(""))
 }
 
 func Test_ConcurrentWithLimit(t *testing.T) {
