@@ -328,6 +328,7 @@ func ErrJoin(errs ...error) error {
 	}
 
 	if len(errsStrList) == 0 {
+
 		return nil
 	}
 
