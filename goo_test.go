@@ -477,4 +477,5 @@ func Test_SymmetricDifference(t *testing.T) {
 
 func Test_ErrJoin(t *testing.T) {
 	fmt.Println(goo.ErrJoin(errors.New("1"), nil, errors.New("2")))
+	fmt.Println(goo.ErrJoin())
 }
