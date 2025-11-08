@@ -425,6 +425,7 @@ func Test_StructKeys(t *testing.T) {
 		CreatedAt time.Time `json:"created_at" gorm:"-"`
 		UpdatedAt time.Time `json:"-" gorm:"column:updated_at"`
 		DeletedAt time.Time `json:"-" gorm:"default:null"`
+		IsDeleted bool      `json:"is_deleted" gorm:""`
 	}
 	var user = User{Name: "张三", Age: 18}
 	var user2 User
