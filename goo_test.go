@@ -463,7 +463,7 @@ func Test_ParseGormColumnTag(t *testing.T) {
 func Test_ConcurrentWithLimit(t *testing.T) {
 	ret := goo.ConcurrentWithLimit([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5, func(item int) error {
 		fmt.Println(item)
-		time.Sleep(time.Second * time.Duration(goo.RandomIntInRange(1, 5)))
+		time.Sleep(time.Second * time.Duration(goo.RandomIntInRange(1, 2)))
 		return nil
 	})
 
@@ -478,7 +478,7 @@ func Test_ConcurrentWithLimitRetErrs(t *testing.T) {
 		}
 
 		fmt.Println(item)
-		time.Sleep(time.Second * time.Duration(goo.RandomIntInRange(1, 5)))
+		time.Sleep(time.Second * time.Duration(goo.RandomIntInRange(1, 2)))
 		return item, nil
 	})
 
